@@ -1,4 +1,9 @@
 fatserver
  * a light-weight, python-based game server
  * for fun~
+ * why call it *fatserver*, well, you should ask fatfatson. :-)
 
+ARCHITECTURE
+ * fatkernel, single process/multi-threading game server
+ * fatskynet, a lot of fatkernel process to make a distributed service
+ * fatknife, some other tools
