@@ -3,13 +3,13 @@ from fatkernel import Actor
 from fatkernel.interface import IStartup
 
 class GlobalStarter(Actor, IStartup):
-	def __init__(self):
-		super(GlobalStarter, self).__init__()
+	def __init__(self, args):
+		super(GlobalStarter, self).__init__(args)
 
 	def applicationStartup(self):
 		print 'startup'
-		#self.createActor('Ping')
-		#self.createActor('Pong')
+		self.createActor('Ping')
+		self.createActor('Pong')
 
 	def applicationShutdown(self):
 		print 'shutdown'
