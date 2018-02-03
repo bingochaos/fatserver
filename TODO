@@ -1,0 +1,7 @@
+TODO
+ * timer cleanup when actor.shutdown()
+
+[2018-02-03]
+ * Actor and ActorContainer
+ * Ping/Pong demo 
+

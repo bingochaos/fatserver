@@ -16,8 +16,9 @@ class ActorContainer(object):
 
 	def onSignal(self, handle, signum):
 		print 'quit...'
-		[actor.shutdown() for actor in self.id2actor.itervalues()]
-		handle.close()
+		# [actor.shutdown() for actor in self.id2actor.itervalues()]
+		# handle.close()
+		self.loop.stop()
 
 	def createActor(self, name, args = None):
 		mod = __import__(name)
@@ -31,11 +32,21 @@ class ActorContainer(object):
 		if isinstance(actor, IStartup):
 			self.startupActors.append(actor)
 
+		actor.startup()
+
 	def findActorByName(self, name):
 		return self.name2actor.get(name, None)
 
 	def findActor(self, actorId):
 		return self.id2actor.get(actorId, None)
+
+	def createTimer(self, callback, timeout):
+		return createRepeatTimer(callback, timeout, 0)
+
+	def createRepeatTimer(self, callback, timeout, repeat):
+		handle = pyuv.Timer(self.loop)
+		handle.start(callback, timeout, repeat)
+		return handle
 
 	def run(self):
 		for actor in self.startupActors:
