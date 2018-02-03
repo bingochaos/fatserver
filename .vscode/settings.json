@@ -1,0 +1,17 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+	"python.linting.enabled": false,
+    
+	"editor.insertSpaces": false,
+    
+	"editor.fontSize": 24,
+	
+	"editor.wrappingIndent": "none",
+
+	"editor.minimap.enabled": false,
+	
+	"files.exclude": {
+		"**/.svn": true,
+		"**/*.pyc": true
+	}
+}
