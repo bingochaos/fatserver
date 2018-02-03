@@ -6,6 +6,7 @@ class Pong(Actor):
 		super(Pong, self).__init__(args)
 
 	def recvPing(self, sender, val):
-		print 'recvPing', val
+		print '[Pong] recv ping', sender.actorId, val
 		sender.callMethod('recvPong', val+1)
+		sender.callMethod('voidArgCall')
 

@@ -7,10 +7,10 @@ class GlobalStarter(Actor, IStartup):
 		super(GlobalStarter, self).__init__(args)
 
 	def applicationStartup(self):
-		print 'startup'
+		print '[Starter] applicationStartup'
 		self.createActor('Ping', {'initvalue': 10})
 		self.createActor('Pong')
 
 	def applicationShutdown(self):
-		print 'shutdown'
+		print '[Starter] applicationShutdown'
 

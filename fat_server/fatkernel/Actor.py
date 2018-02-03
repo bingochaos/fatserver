@@ -1,11 +1,17 @@
 # -*- encoding: utf-8 -*-
 
+from .Mailbox import Mailbox
+
+# TODO
+actorIdGlobal = 1
+
 class Actor(object):
-	actorIdGlobal = 1	
 
 	def __init__(self, args):
-		self.actorId = self.actorIdGlobal
-		self.actorIdGlobal += 1
+		global actorIdGlobal
+
+		self.actorId = actorIdGlobal
+		actorIdGlobal += 1
 
 		self.container = None
 
@@ -18,7 +24,7 @@ class Actor(object):
 
 	# ----- override method -----
 	def startup(self):
-		print self.__class__.__name__, 'startup'
+		print self.__class__.__name__, 'startup actorId =', self.getActorId()
 
 	def shutdown(self):
 		print self.__class__.__name__, 'shutdown'
@@ -33,4 +39,10 @@ class Actor(object):
 
 	def createRepeatTimer(self, callback, timeout, repeat):
 		return self.container.createRepeatTimer(callback, timeout, repeat)
+
+	def findActorByName(self, name):
+		return self.container.findActorByName(name)
+
+	def mailbox(self):
+		return Mailbox(self.container, self.actorId)
 
