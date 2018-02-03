@@ -8,7 +8,7 @@ class GlobalStarter(Actor, IStartup):
 
 	def applicationStartup(self):
 		print 'startup'
-		self.createActor('Ping')
+		self.createActor('Ping', {'initvalue': 10})
 		self.createActor('Pong')
 
 	def applicationShutdown(self):

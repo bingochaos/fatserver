@@ -2,15 +2,16 @@
 from fatkernel import Actor
 
 class Ping(Actor):
-	def __init__(self):
-		super(Ping, self).__init__()
-		self.value = 1
+	def __init__(self, args):
+		super(Ping, self).__init__(args)
+		self.value = args['initvalue']
+		print 'Ping.__init__', self.value
 
 		# self.createTimer(self.sendPing, 5)
-		self.createRepeatTimer(self.sendPing, 5, 10)
+		# self.createRepeatTimer(self.sendPing, 5, 10)
 		
 	def sendPing(self):
-		pong = self.findActor('Pong')
+		pong = self.findActorByName('Pong')
 		pong.callMethod('recvPing', (self.getMailbox(), self.value,))
 
 	def recvPong(self, val):

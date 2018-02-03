@@ -1,17 +1,29 @@
 # -*- encoding: utf-8 -*-
 
+import pyuv
+import signal
 from .interface import IStartup
 
 class ActorContainer(object):
 	def __init__(self):
+		self.loop = pyuv.Loop.default_loop()
+		handle = pyuv.Signal(self.loop)
+		handle.start(self.onSignal, signal.SIGINT)
+		
 		self.id2actor   = {}
 		self.name2actor = {}
 		self.startupActors = []
+
+	def onSignal(self, handle, signum):
+		print 'quit...'
+		[actor.shutdown() for actor in self.id2actor.itervalues()]
+		handle.close()
 
 	def createActor(self, name, args = None):
 		mod = __import__(name)
 		clazz = getattr(mod, name, None)
 		actor = clazz(args)
+		actor.setContainer(self)
 
 		self.id2actor[actor.getActorId()] = actor
 		self.name2actor[name] = actor
@@ -30,6 +42,8 @@ class ActorContainer(object):
 			actor.applicationStartup()
 
 		# event loop
+		print 'container running'
+		self.loop.run()
 
 		for actor in self.startupActors:
 			actor.applicationShutdown()
