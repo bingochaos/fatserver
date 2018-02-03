@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# from fatkernel import ActorContainer
+from fatkernel import ActorContainer
 
 def main():
 	ac = ActorContainer()
@@ -7,6 +7,5 @@ def main():
 	ac.run()
 
 if __name__ == '__main__':
-	#main()
-	print 'hello'
+	main()
 
