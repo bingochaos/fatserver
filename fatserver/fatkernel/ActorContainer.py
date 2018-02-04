@@ -15,7 +15,7 @@ class ActorContainer(object):
 		self.startupActors = []
 
 		self.mails      = []
-		self.mailTimer  = None
+		self.mailHandle = None
 
 	def onSignal(self, handle, signum):
 		print 'quit...'
@@ -53,13 +53,15 @@ class ActorContainer(object):
 
 	def callMethod(self, actorId, func, args):
 		#print '[ActorContainer] callMethod', actorId, func
-		#print '[ActorContainer] callMethod.mailTimer', self.mailTimer
+		#print '[ActorContainer] callMethod.mailTimer', self.mailHandle
 		self.mails.append((actorId, func, args))
-		if self.mailTimer is None:
-			self.mailTimer = self.createTimer(self.callMethodInternal, 0)  # call in next event frame
+		if self.mailHandle is None:
+			self.mailHandle = pyuv.Idle(self.loop)
+			self.mailHandle.start(self.callMethodInternal)
 
 	def callMethodInternal(self, handle):
-		self.mailTimer = None
+		self.mailHandle.stop()
+		self.mailHandle = None
 		for mail in self.mails:
 			actorId, func, args = mail
 			actor = self.findActor(actorId)
